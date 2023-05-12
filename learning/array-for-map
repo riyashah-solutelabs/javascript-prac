@@ -1,0 +1,5 @@
+When we need to iterate over an array – we can use forEach, for or for..of.
+
+When we need to iterate and return the data for each element – we can use map.
+
+The methods arr.reduce and arr.reduceRight also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.

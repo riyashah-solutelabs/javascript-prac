@@ -1,0 +1,235 @@
+Error handling, "try...catch"
+
+try...catch only works for runtime errors
+It won’t work if the code is syntactically wrong, for instance it has unmatched curly braces:
+try {
+  {{{{{{{{{{{{
+} catch (err) {
+  alert("The engine can't understand this code, it's invalid");
+}
+syntax wrong hse to catch ma nai jay error aavse
+
+The JavaScript engine first reads the code, and then runs it. The errors that occur on the reading phase are called “parse-time” errors and are unrecoverable (from inside that code). That’s because the engine can’t understand the code.
+
+So, try...catch can only handle errors that occur in valid code. Such errors are called “runtime errors” or, sometimes, “exceptions”.
+
+try...catch works synchronously
+If an exception happens in “scheduled” code, like in setTimeout, then try...catch won’t catch it:
+try {
+  setTimeout(function() {
+    noSuchVariable; // script will die here
+  }, 1000);
+} catch (err) {
+  alert( "won't work" );
+}
+
+Error object
+When an error occurs, JavaScript generates an object containing the details about it. The object is then passed as an argument to catch:
+
+For all built-in errors, the error object has two main properties:
+
+name
+Error name. For instance, for an undefined variable that’s "ReferenceError".
+message
+Textual message about error details.
+There are other non-standard properties available in most environments. One of most widely used and supported is:
+
+stack
+Current call stack: a string with information about the sequence of nested calls that led to the error. Used for debugging purposes.
+
+If we don’t need error details, catch may omit it:
+
+try {
+  // ...
+} catch { // <-- without (err)
+  // ...
+}
+
+JavaScript supports the JSON.parse(str) method to read JSON-encoded values.
+
+Throwing our own errors
+What if json is syntactically correct, but doesn’t have a required name property?
+
+Like this:
+
+let json = '{ "age": 30 }'; // incomplete data
+
+try {
+
+  let user = JSON.parse(json); // <-- no errors
+  alert( user.name ); // no name!
+
+} catch (err) {
+  alert( "doesn't execute" );
+}
+
+Here JSON.parse runs normally, but the absence of name is actually an error for us.
+
+To unify error handling, we’ll use the throw operator.
+
+“Throw” operator
+The throw operator generates an error.
+
+The syntax is:
+
+throw <error object>
+JavaScript has many built-in constructors for standard errors: Error, SyntaxError, ReferenceError, TypeError and others. We can use them to create error objects as well.
+
+Their syntax is:
+
+let error = new Error(message);
+// or
+let error = new SyntaxError(message);
+let error = new ReferenceError(message);
+
+let json = '{ "age": 30 }'; // incomplete data
+
+try {
+
+  let user = JSON.parse(json); // <-- no errors
+
+  if (!user.name) {
+    throw new SyntaxError("Incomplete data: no name"); // (*)
+  }
+
+  alert( user.name );
+
+} catch (err) {
+  alert( "JSON Error: " + err.message ); // JSON Error: Incomplete data: no name
+}
+
+In the line (*), the throw operator generates a SyntaxError with the given message, the same way as JavaScript would generate it itself. The execution of try immediately stops and the control flow jumps into catch.
+
+Now catch became a single place for all error handling: both for JSON.parse and other cases.
+
+Rethrowing
+error handle na kri ske to exit script or jo outer try catch hoy to tya jay
+
+Variables are local inside try...catch...finally
+
+finally and return
+The finally clause works for any exit from try...catch. That includes an explicit return.
+
+In the example below, there’s a return in try. In this case, finally is executed just before the control returns to the outer code.
+
+function func() {
+
+  try {
+    return 1;
+
+  } catch (err) {
+    /* ... */
+  } finally {
+    alert( 'finally' );
+  }
+}
+
+alert( func() ); // first works alert from finally, and then this one
+o/p - finally p6i 1
+
+try...finally
+The try...finally construct, without catch clause, is also useful. We apply it when we don’t want to handle errors here (let them fall through), but want to be sure that processes that we started are finalized.
+
+function func() {
+  // start doing something that needs completion (like measurements)
+  try {
+    // ...
+  } finally {
+    // complete that thing even if all dies
+  }
+}
+
+In the code above, an error inside try always falls out, because there’s no catch. But finally works before the execution flow leaves the function.
+
+Global catch
+Environment-specific
+The information from this section is not a part of the core JavaScript.
+There is none in the specification, but environments usually provide it, because it’s really useful. For instance, Node.js has process.on("uncaughtException") for that. And in the browser we can assign a function to the special window.onerror property, that will run in case of an uncaught error.
+
+The syntax:
+
+window.onerror = function(message, url, line, col, error) {
+  // ...
+};
+message
+Error message.
+url
+URL of the script where error happened.
+line, col
+Line and column numbers where error happened.
+error
+Error object.
+For instance:
+
+<script>
+  window.onerror = function(message, url, line, col, error) {
+    alert(`${message}\n At ${line}:${col} of ${url}`);
+  };
+
+  function readData() {
+    badFunc(); // Whoops, something went wrong!
+  }
+
+  readData();
+</script>
+
+They work like this:
+
+We register at the service and get a piece of JS (or a script URL) from them to insert on pages.
+That JS script sets a custom window.onerror function.
+When an error occurs, it sends a network request about it to the service.
+We can log in to the service web interface and see errors.
+
+The try...catch construct allows to handle runtime errors. It literally allows to “try” running the code and “catch” errors that may occur in it.
+
+The syntax is:
+
+try {
+  // run this code
+} catch (err) {
+  // if an error happened, then jump here
+  // err is the error object
+} finally {
+  // do in any case after try/catch
+}
+There may be no catch section or no finally, so shorter constructs try...catch and try...finally are also valid.
+
+Error objects have following properties:
+
+message – the human-readable error message.
+name – the string with error name (error constructor name).
+stack (non-standard, but well-supported) – the stack at the moment of error creation.
+If an error object is not needed, we can omit it by using catch { instead of catch (err) {.
+
+We can also generate our own errors using the throw operator. Technically, the argument of throw can be anything, but usually it’s an error object inheriting from the built-in Error class. More on extending errors in the next chapter.
+
+Rethrowing is a very important pattern of error handling: a catch block usually expects and knows how to handle the particular error type, so it should rethrow errors it doesn’t know.
+
+Even if we don’t have try...catch, most environments allow us to setup a “global” error handler to catch errors that “fall out”. In-browser, that’s window.onerror.
+
+Summary
+We can inherit from Error and other built-in error classes normally. We just need to take care of the name property and don’t forget to call super.
+We can use instanceof to check for particular errors. It also works with inheritance. But sometimes we have an error object coming from a 3rd-party library and there’s no easy way to get its class. Then name property can be used for such checks.
+Wrapping exceptions is a widespread technique: a function handles low-level exceptions and creates higher-level errors instead of various low-level ones. Low-level exceptions sometimes become properties of that object like err.cause in the examples above, but that’s not strictly required.
+
+JavaScript Throws Errors
+When an error occurs, JavaScript will normally stop and generate an error message.
+
+The technical term for this is: JavaScript will throw an exception (throw an error).
+
+JavaScript will actually create an Error object with two properties: name and message.
+
+Error Name Values
+Six different values can be returned by the error name property:
+
+Error Name	Description
+EvalError	An error has occurred in the eval() function
+RangeError	A number "out of range" has occurred
+ReferenceError	An illegal reference has occurred
+SyntaxError	A syntax error has occurred
+TypeError	A type error has occurred
+URIError	An error in encodeURI() has occurred
+
+What is eval function in JavaScript?
+eval() is a function property of the global object. The argument of the eval() function is a string. It will evaluate the source string as a script body, which means both statements and expressions are allowed. It returns the completion value of the code. For expressions, it's the value the expression evaluates to.
+

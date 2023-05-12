@@ -1,0 +1,41 @@
+Statements
+Statements are syntax constructs and commands that perform actions.
+
+We’ve already seen a statement, alert('Hello, world!'), which shows the message “Hello, world!”.
+
+//
+/**/
+
+Use hotkeys!
+In most editors, a line of code can be commented out by pressing the Ctrl+/ hotkey for a single-line comment and something like Ctrl+Shift+/ – for multiline comments (select a piece of code and press the hotkey). For Mac, try Cmd instead of Ctrl and Option instead of Shift.
+
+Ensure that “use strict” is at the top
+Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
+
+There’s no way to cancel use strict
+There is no directive like "no use strict" that reverts the engine to old behavior.
+
+Once we enter strict mode, there’s no going back.
+
+Browser console
+When you use a developer console to run code, please note that it doesn’t use strict by default.
+
+Sometimes, when use strict makes a difference, you’ll get incorrect results.
+
+So, how to actually use strict in the console?
+
+First, you can try to press Shift+Enter to input multiple lines, and put use strict on top, like this:
+
+'use strict'; <Shift+Enter for a newline>
+//  ...your code
+<Enter to run>
+
+If it doesn’t, e.g. in an old browser, there’s an ugly, but reliable way to ensure use strict. Put it inside this kind of wrapper:
+
+(function() {
+  'use strict';
+
+  // ...your code here...
+})()
+
+So, for now "use strict"; is a welcome guest at the top of your scripts. Later, when your code is all in classes and modules, you may omit it.

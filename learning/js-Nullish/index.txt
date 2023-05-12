@@ -1,0 +1,48 @@
+Nullish coalescing operator '??'
+
+The result of a ?? b is:
+
+if a is defined, then a,
+if a isn’t defined, then b.
+In other words, ?? returns the first argument if it’s not null/undefined. Otherwise, the second one.
+
+The nullish coalescing operator isn’t anything completely new. It’s just a nice syntax to get the first “defined” value of the two.
+
+We can rewrite result = a ?? b using the operators that we already know, like this:
+
+let user;
+alert(user ?? "Anonymous"); // Anonymous (user is undefined)
+
+let user = "John";
+alert(user ?? "Anonymous"); // John (user is not null/undefined)
+
+|| returns the first truthy value.
+?? returns the first defined value.
+
+let height = 0;
+
+alert(height || 100); // 100
+alert(height ?? 100); // 0
+
+Precedence
+The precedence of the ?? operator is the same as ||. They both equal 3 in the MDN table.
+
+That means that, just like ||, the nullish coalescing operator ?? is evaluated before = and ?, but after most other operations, such as +, *.
+
+So we may need to add parentheses in expressions like this:
+
+let height = null;
+let width = null;
+
+// important: use parentheses
+let area = (height ?? 100) * (width ?? 50);
+
+alert(area); // 5000
+
+Using ?? with && or ||
+Due to safety reasons, JavaScript forbids using ?? together with && and || operators, unless the precedence is explicitly specified with parentheses.
+parantheses sathe use thay 
+let x = 1 && 2 ?? 3; // Syntax error
+let x = (1 && 2) ?? 3; // Works
+alert(x); // 2
+

@@ -1,0 +1,263 @@
+Even before the code starts executing the memory is allocated to each and every variable and function
+
+let and const variables are hoisted in the temporal dead zone
+let variable ni memory script ma assign Thay
+var ni memory global ma assign Thay
+
+so, for let and const we can not access the variable/this memory space before initializing it/put some value in it.
+
+Temporal dead zone is the time since when this let variable was hoisted and till it is initialize some value. Time between them is known as the temporal dead zone
+
+console.log(a);
+
+let a = 10;
+
+so, from 11 to 13 line it is called temporal dead zone.
+so it gives reference error , can not access a before initializing it
+
+const ma declare krti vkhte j variable ni value assign krvi
+
+syntax error
+let a = 10;
+let a = 1;
+
+difference between let and const
+it is OK
+let a;
+a= 10
+
+it gives an error
+const a;
+a = 10;
+it works
+const a = 10;
+
+type error - if you try to assign a value to the const value
+const a = 100000;
+a = 1000;
+
+Reference Error
+if we try to access variable before initilizing it or before declaring
+
+To avoid temporal dead zone
+always try to put declarations and initialization at the top of the script
+this means we are shrinking the temporal dead zone
+
+Block scope:
+also known as compound statements
+it also follow lexical scope
+it combines multiple javascript statements into a group
+block scope - starting and ending curly braces define the block scope
+{
+}
+we group multiple statements together in a block so that we can use it where javascript expects one statement.
+for eg, if ma aapde ek j statement lkhvu hoy to curly brackets nathi lgavta pan ek krta vdhare statements mate curly brackets no use krvo pde 6,so that we can group all together in one statement
+
+{
+    var a = 10;
+    let b = 20;
+    const c = 30;
+}
+in above case the memory of a is assigned in global space,
+the memory of b and c is assigned in block scope
+
+
+Shadowing in js :
+var a = 100;
+{
+    var a = 10;
+    console.log(a) //10
+}
+    console.log(a) //10
+
+here a is shadowed and overwrite the value bcz they both point out to the same location
+
+but in case of let and const : 
+let a = 100; //this is stored in script memory space
+const b = 100; //this is stored in script memory space
+{
+    let a = 5; //this is stored in block memory space
+    const b = 5; //this is stored in block memory space
+    console.log(a); //5
+    console.log(b); //5
+}
+we can also use it with function
+function x(){
+    let a = 5; //this is stored in block memory space
+    const b = 5; //this is stored in block memory space
+    console.log(a); //5
+    console.log(b); //5
+}
+x();
+    console.log(a); //100
+    console.log(b); //100
+x();
+
+Illegal Shadowing :
+let variable ne var thi declare but vice versa is possible
+this gives us syntax error
+let a = 20;
+{
+    var a = 20;
+}
+
+this is valid :
+var a = 20;
+{
+    let a = 20;
+}
+this is also valid:
+let a = 20;
+function x(){
+    var a = 20;
+}
+
+this is valid for const
+const a = 20;
+{
+    const a = 100;
+}
+
+lexical means one inside other
+e.g,
+const a = 20;
+{
+    const a = 100;
+    {
+        const a = 200;
+        console.log(a) //200
+    }
+        console.log(a) //100
+}
+e.g,
+const a = 20;
+{
+    const a = 100;
+    {
+        console.log(a) //100
+    }
+}
+
+scope works same on both function() and arrow function.
+
+higher order function - map , filter, reduce
+
+map() - map function is used to transform in array.
+
+transformation means suppose if you want to transform each and every value of the array and get a new array out of it.
+
+syntax : array.map(funcname);
+
+e.g, to return binary values
+const arr = [5,1,3,2,6];
+function binary(x){
+    return x.toString(2);
+}
+const output = arr.map(binary);
+console.log(output);
+
+or we can also write this way
+const output = arr.map(function binary(x){
+    return x.toString(2);
+});
+or we can also write this way
+const output = arr.map((x) => {
+    return x.toString(2);
+});
+or we can also write this way
+const output = arr.map((x) =>x.toString(2));
+console.log(output);
+
+filter() - used to filter the values inside array;
+e.g, we want only odd/even/divisible by 2 values, greaterthn 4 value, lesser thn 4
+
+e.g, odd values
+const arr = [5,1,3,2,6];
+function isOdd(x){
+    return x % 2;
+}
+const output = arr.filter(isOdd);
+console.log(output);
+
+reduce() - when we want to take all the elements of the array and come up with the single value
+e.g, largest/max number , min number , sum of all the elements
+
+syntax : array.reduce(function(accumilator,current){
+
+})
+
+reduce function basically iterate each and every element of the array.
+
+e.g = to find sum of the elements
+
+normal func :
+function findsum(arr){
+    let sum = 0;
+    for(let i=0;i<arr.length;i++){
+        sum = sum + arr[i]
+    }
+    return sum;
+}
+
+using reduce func :
+in this case acc is sum ,
+and the curr is arr[i]
+
+const output = arr.reduce(function (acc,curr){
+    acc = acc+curr;
+    return acc;
+})
+
+e.g , find max
+const output = arr.reduce(function(max,curr){
+    if(curr > max){
+        max = curr;
+    }
+},0)
+here, initial val of max is 0;
+
+e.g , from object print full name
+const users = [
+    { firstName: "Riya", lastName:"Shah", age:22},
+    { firstName: "Shreya", lastName:"Panchal", age:23},
+    { firstName: "Rajvi", lastName:"Shah", age:22},
+];
+
+const output = users.map((x) => x.firstName +" " + x.lastName)
+console.log(output);
+
+e.g, what are the different age and how many people are with the same age
+o/p : {22:2 , 23:1}
+
+The reduce func is used here bcz we want one obj from this array as an output
+
+const output = users.reduce(function(acc,curr){
+    //check if curr age is present in acc or not
+    if(acc[curr.age]){
+        //acc[curr.age] += 1;
+        acc[curr.age] = ++acc[curr.age];
+    }else{
+        acc[curr.age] = 1
+    }
+    return acc;
+},{})
+first of all there is initially an empty object is created.
+
+e.g, findout the first name of the people whose age is < 23
+filter func is used here
+
+jeni age < 23 hse e bdha obj aapi dese
+//const output = users.filter((x) => x.age < 23))
+
+we chain map function to get the name of users who has < 23 age
+the output of the filter function is the input of map function here
+const output = users.filter((x) => x.age < 23).map((x) => x.firstName))
+
+we can also write reduce for it - kdach aa sachu try krvu
+const output = users.reduce(function age(acc,curr){
+    if(curr.age < 23){
+        acc.push(curr.firstName);
+    }
+    return acc;
+},[])
+

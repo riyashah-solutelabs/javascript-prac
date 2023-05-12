@@ -1,0 +1,25 @@
+<!-- <script>alert("Hello from Top")</script> -->
+<!DOCTYPE html>
+<!-- <script>alert("Hello second")</script> -->
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script>alert("Hello third from head")</script> -->
+</head>
+<!-- <script>alert("Hello 4 from outside head")</script> -->
+<body>
+    <script type="text/javascript">alert("Hello 5 from body")</script>
+    <!-- <script src="file.js">
+        alert(1); // the content is ignored, because src is set
+      </script> -->
+      <script src="file.js"></script>
+        <script>
+        alert(1);
+        </script>
+</body>
+<!-- <script>alert("Hello 6 outside body")</script> -->
+</html>
+<!-- <script>alert("Hello 7")</script> -->

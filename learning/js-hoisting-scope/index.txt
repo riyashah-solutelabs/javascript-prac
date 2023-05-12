@@ -1,0 +1,185 @@
+JavaScript Hoisting
+Hoisting is JavaScript's default behavior of moving declarations to the top.
+
+JavaScript Declarations are Hoisted
+In JavaScript, a variable can be declared after it has been used.
+
+In other words; a variable can be used before it has been declared.
+
+x = 5; // Assign 5 to x
+
+elem = document.getElementById("demo"); // Find an element
+elem.innerHTML = x;   //5                  // Display x in the element
+
+var x; // Declare x
+elem.innerHTML = x; //5                    // Display x in the element
+
+
+var - value initialixe krya p6i variable declare krie to chale
+but variable print kravya p6i variable initialize krie to na chale
+
+let , const - myname = riya; let myname; or let myname = 'shreya' or const myname; na chale reference error aape
+sir e kidhu k hoist thai ske let and const but e aagd aavse
+
+var x = 5; // Initialize x
+var y;   // Declare y
+
+elem = document.getElementById("demo"); // Find an element 
+elem.innerHTML = x + " " + y;       // Display 5 and undefined
+
+y = 7;   // Assign 7 to y
+
+Declare Your Variables At the Top !
+Hoisting is (to many developers) an unknown or overlooked behavior of JavaScript.
+
+If a developer doesn't understand hoisting, programs may contain bugs (errors).
+
+To avoid bugs, always declare all variables at the beginning of every scope.
+
+Since this is how JavaScript interprets the code, it is always a good rule.
+
+JavaScript in strict mode does not allow variables to be used if they are not declared.
+Study "use strict" in the next chapter.
+
+let -
+
+let { bar } = foo; // where foo = { bar:10, baz:12 };
+/* This creates a variable with the name 'bar', which has a value of 10 *
+
+
+Temporal dead zone (TDZ)
+A let or const variable is said to be in a "temporal dead zone" (TDZ) from the start of the block until code execution reaches the line where the variable is declared and initialized.
+
+While inside the TDZ, the variable has not been initialized with a value, and any attempt to access it will result in a ReferenceError. 
+
+The term "temporal" is used because the zone depends on the order of execution (time) rather than the order in which the code is written (position). For example, the code below works because, even though the function that uses the let variable appears before the variable is declared, the function is called outside the TDZ.
+
+{
+  // TDZ starts at beginning of scope
+  const func = () => console.log(letVar); // OK
+
+  // Within the TDZ letVar access throws `ReferenceError`
+
+  let letVar = 3; // End of TDZ (for letVar)
+  func(); // Called outside TDZ!
+}
+
+The TDZ and typeof
+Using the typeof operator for a let variable in its TDZ will throw a ReferenceError:
+
+// results in a 'ReferenceError'
+console.log(typeof i);
+let i = 10;
+
+// prints out 'undefined'
+console.log(typeof undeclaredVariable);
+
+TDZ combined with lexical scoping
+The following code results in a ReferenceError at the line shown:
+
+function test() {
+  var foo = 33;
+  if (foo) {
+    let foo = foo + 55; // ReferenceError
+  }
+}
+test();
+
+What are lexical scope in JS?
+Lexical scoping in JavaScript
+
+JavaScript uses lexical scoping to resolve the variable names when a function is created inside another function. It determines the function's parent scope by looking at where the function was created instead of where it was invoked.
+
+What is Lexical Scope in JavaScript? Lexical scope is the definition area of an expression. In other words, an item's lexical scope is the place in which the item got created.
+
+TDZ combined with lexical scoping
+function test() {
+  var foo = 33;
+  if (foo) {
+    let foo = foo + 55; // ReferenceError
+
+    // runs normallyy 
+    // foo = foo + 55; 
+    // console.log(foo);
+  }
+}
+test();
+
+var a = 1;
+var b = 2;
+
+if (a === 1) {
+  var a = 11; // the scope is global
+  let b = 22; // the scope is inside the if-block
+
+  console.log(a);  // 11
+  console.log(b);  // 22
+}
+
+console.log(a); // 11
+console.log(b); // 2
+
+
+scope
+block , function , global
+
+Block Scope
+Before ES6 (2015), JavaScript had only Global Scope and Function Scope.
+ES6 introduced two important new JavaScript keywords: let and const.
+These two keywords provide Block Scope in JavaScript.
+Variables declared inside a { } block cannot be accessed from outside the block:
+
+{
+  let x = 2;
+}
+// x can NOT be used here
+
+Automatically Global
+If you assign a value to a variable that has not been declared, it will automatically become a GLOBAL variable.
+
+This code example will declare a global variable carName, even if the value is assigned inside a function.
+
+Example
+myFunction();
+
+// code here can use carName
+
+function myFunction() {
+  carName = "Volvo";
+
+  In "Strict Mode", undeclared variables are not automatically global.
+
+  Global Variables in HTML
+With JavaScript, the global scope is the JavaScript environment.
+
+In HTML, the global scope is the window object.
+
+Global variables defined with the var keyword belong to the window object:
+
+Example
+var carName = "Volvo";
+// code here can use window.carName
+
+<script>
+var carName = "Volvo";
+
+// code here can use window.carName
+document.getElementById("demo").innerHTML = "I can display " + window.carName;
+</script>
+
+Global variables defined with the let keyword do not belong to the window object:
+
+Example
+let carName = "Volvo";
+// code here can not use window.carName
+
+The Lifetime of JavaScript Variables
+The lifetime of a JavaScript variable starts when it is declared.
+
+Function (local) variables are deleted when the function is completed.
+
+In a web browser, global variables are deleted when you close the browser window (or tab).
+
+Function Arguments
+Function arguments (parameters) work as local variables inside functions.
+

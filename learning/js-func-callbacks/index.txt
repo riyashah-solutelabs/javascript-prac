@@ -1,0 +1,53 @@
+// Functions
+
+// Functions are the main “building blocks” of the program. They allow the code to be called many times without repetition.
+
+function showMessage() {
+  alert( 'Hello everyone!' );
+}
+
+
+
+function sayHi() {
+  alert( "Hello" );
+}
+There is another syntax for creating a function that is called a Function Expression.
+
+It allows us to create a new function in the middle of any expression.
+
+For example:
+
+let sayHi = function() {
+  alert( "Hello" );
+};
+
+Function is a value
+Let’s reiterate: no matter how the function is created, a function is a value. Both examples above store a function in the sayHi variable.
+
+We can even print out that value using alert:
+
+function sayHi() {
+  alert( "Hello" );
+}
+
+alert( sayHi ); 
+
+function sayHi() {   // (1) create
+  alert( "Hello" );
+}
+
+let func = sayHi;    // (2) copy
+
+func(); // Hello     // (3) run the copy (it works)!
+sayHi(); // Hello 
+
+
+Summary
+Functions are values. They can be assigned, copied or declared in any place of the code.
+If the function is declared as a separate statement in the main code flow, that’s called a “Function Declaration”.
+If the function is created as a part of an expression, it’s called a “Function Expression”.
+Function Declarations are processed before the code block is executed. They are visible everywhere in the block.
+Function Expressions are created when the execution flow reaches them.
+In most cases when we need to declare a function, a Function Declaration is preferable, because it is visible prior to the declaration itself. That gives us more flexibility in code organization, and is usually more readable.
+
+So we should use a Function Expression only when a Function Declaration is not fit for the task. We’ve seen a couple of examples of that in this chapter, and will see more in the future.

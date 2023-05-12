@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+        
+        // 1. import default export
+        import m from './message.js';
+        alert(m)
+        // import mFun from './message.js';
+        // mFun();
+
+        // 2.import named export
+        // import {hello,world,msgFunc} from './message.js';
+        // alert(`${hello} ${world}`)
+        // msgFunc();
+        import * as stat from './message.js';
+        alert(`${stat.hello} ${stat.world}`)
+        stat.msgFunc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+typeof
+
+string
+myVar instanceof String
+a instanceof String
+Number.isNaN(a)
+
+Number
+!Number.isNaN(a)
+
+Integer
+Number.isInteger(a)
+
+var a = 10.9;
+// if(a instanceof String){
+// if(Number.isInteger(a)){
+if(!Number.isNaN(a)){
+    // console.log("String");
+    // console.log("integer");
+    console.log("Number");
+}else{
+    console.log("not");
+}
+
+or
+custome bnavu check krva
+const dataTypeChecker = (data, debug = false) => {
+    const log = console.log;
+    let result = ``;
+    const typeString = Object.prototype.toString.call(data);
+    result = typeString.replace(/\[object /gi, ``).replace(/\]/gi, ``);
+    if(debug) {
+      log(`true type`, result)
+    }
+    return result;
+  };
+
+  const dataTypeChecker = (data, debug = false) => {
+    const log = console.log;
+    let result = ``;
+    const typeString = Object.prototype.toString.call(data);
+    // const typeString = Object.prototype.toString.apply(data);
+    result = typeString.replace(/\[object /gi, ``).replace(/\]/gi, ``);
+    if(!debug) {
+      log(`true type`, result)
+    }
+    return result;
+  };
+  
+  
+  
+  const obj = {};
+  const func = () => {};
+  
+  
+  dataTypeChecker(NaN)
+  //"[object Number]"
+  dataTypeChecker(undefined)
+  //"[object Undefined]"
+  dataTypeChecker(true)
+  //"[object Boolean]"
+  dataTypeChecker({})
+  //"[object Object]"
+  dataTypeChecker(func)
+  //"[object Function]"
+  dataTypeChecker(obj)
+  //"[object Object]"
+  dataTypeChecker(Symbol())
+  //"[object Symbol]"
+  dataTypeChecker(null)
+  //"[object Null]"
+  dataTypeChecker(123)
+  //"[object Number]"
+  dataTypeChecker(BigInt(1n))
+  //"[object BigInt]"
+  
+  
+  // true type Number
+  // true type Undefined
+  // true type Boolean
+  // true type Object
+  // true type Function
+  // true type Object
+  // true type Symbol
+  // true type Null
+  // true type Number
+  // true type BigInt
